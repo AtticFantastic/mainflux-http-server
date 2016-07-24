@@ -5,8 +5,8 @@
 HTTP API Microservice for Mainflux IoT Platform.
 
 ### Usage
-Use [main.go](examples/main.go) example - just place it in any dir and then:
 ```
+git clone https://github.com/Mainflux/mainflux-http-server && cd mainflux-http-server
 go get
 go build -o mfhttp
 ./mfhttp
