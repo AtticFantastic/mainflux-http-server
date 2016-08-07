@@ -1,10 +1,18 @@
+/**
+ * Copyright (c) Mainflux
+ *
+ * Mainflux server is licensed under an Apache license, version 2.0.
+ * All rights not explicitly granted in the Apache license, version 2.0 are reserved.
+ * See the included LICENSE file for more details.
+ */
+
 package main
 
 import (
     "./api"
     "./mfconns"
 
-    //"log"
+    "log"
     "fmt"
     "strconv"
 
@@ -29,8 +37,11 @@ func main() {
         panic(fmt.Errorf("Fatal error config file: %s \n", err))
     }
 
-    host := viper.GetString("host")
-    port := viper.GetInt("port")
+    host := viper.GetString("server.host")
+    port := viper.GetInt("server.port")
+
+    ntshost := viper.GetString("nats.host")
+    ntsport := viper.GetInt("nats.port")
 
     // Iris config
     iris.Config.DisableBanner = true
@@ -51,7 +62,11 @@ func main() {
     registerAPI()
 
     /** Connect to NATS broker */
-    mfconns.Nc, _ = nats.Connect(nats.DefaultURL)
+    var nerr error
+    mfconns.Nc, nerr = nats.Connect("nats://" + ntshost + ":" + strconv.Itoa(ntsport))
+    if nerr != nil {
+       log.Fatalf("Can't connect: %v\n", nerr)
+    }
 
     color.Cyan(banner)
     color.Cyan("Magic happens on port " + strconv.Itoa(port))
