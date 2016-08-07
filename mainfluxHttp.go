@@ -5,21 +5,34 @@ import (
     "./mfconns"
 
     //"log"
-    //"fmt"
+    "fmt"
+    "strconv"
 
     "github.com/iris-contrib/middleware/logger"
     "github.com/kataras/iris"
     "github.com/nats-io/nats"
 
     "github.com/fatih/color"
+    "github.com/spf13/viper"
 )
 
 var nc nats.Conn
 
 func main() {
 
+    // Viper setup
+    viper.SetConfigType("yaml") // or viper.SetConfigType("YAML")
+    viper.SetConfigName("config") // name of config file (without extension)
+    viper.AddConfigPath(".")   // path to look for the config file in
+    err := viper.ReadInConfig() // Find and read the config file
+    if err != nil { // Handle errors reading the config file
+        panic(fmt.Errorf("Fatal error config file: %s \n", err))
+    }
+
+    host := viper.GetString("host")
+    port := viper.GetInt("port")
+
     // Iris config
-    //irisConfig := config.Iris{ DisableBanner: true }
     iris.Config.DisableBanner = true
 
     // set the global middlewares
@@ -41,9 +54,10 @@ func main() {
     mfconns.Nc, _ = nats.Connect(nats.DefaultURL)
 
     color.Cyan(banner)
+    color.Cyan("Magic happens on port " + strconv.Itoa(port))
 
     // start the server
-    iris.Listen("127.0.0.1:7070")
+    iris.Listen(host + ":" + strconv.Itoa(port))
 }
 
 func registerAPI() {
@@ -68,6 +82,5 @@ _|      _|    _|_|_|  _|  _|    _|    _|      _|    _|_|_|  _|    _|
 
                     ** HTTP SERVER **
 
-Magic happens on port 7070
 `
 
