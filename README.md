@@ -8,8 +8,8 @@ HTTP API Microservice for Mainflux IoT Platform.
 ```
 git clone https://github.com/Mainflux/mainflux-http-server && cd mainflux-http-server
 go get
-go build -o mfhttp
-./mfhttp
+go build
+./mainflux-http-server
 ```
 
 ### Documentation
