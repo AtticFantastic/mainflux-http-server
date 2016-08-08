@@ -14,6 +14,13 @@ go get
 go build
 ./mainflux-http-server
 ```
+### Dependencies
+Mainflux Core Server is connected to `NATS` on southbound interface.
+
+Following diagram illustrates the architecture:
+![Mainflux Arch](https://github.com/Mainflux/mainflux-doc/blob/master/mermaid/arch.png)
+
+Upon booting it will expect that [NATS](https://github.com/nats-io/gnatsd) is up and running. `NATS` config can be customized in [config.yml](config.yml).
 
 ### Documentation
 Development documentation can be found on our [Mainflux GitHub Wiki](https://github.com/Mainflux/mainflux/wiki).
