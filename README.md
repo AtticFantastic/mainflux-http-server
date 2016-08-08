@@ -15,7 +15,7 @@ go build
 ./mainflux-http-server
 ```
 ### Dependencies
-Mainflux Core Server is connected to `NATS` on southbound interface.
+Mainflux HTTP Server is connected to `NATS` on southbound interface.
 
 Following diagram illustrates the architecture:
 ![Mainflux Arch](https://github.com/Mainflux/mainflux-doc/blob/master/mermaid/arch.png)
