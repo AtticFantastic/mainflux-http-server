@@ -1,11 +1,17 @@
-package api
+/**
+ * Copyright (c) Mainflux
+ *
+ * Mainflux server is licensed under an Apache license, version 2.0.
+ * All rights not explicitly granted in the Apache license, version 2.0 are reserved.
+ * See the included LICENSE file for more details.
+ */
+
+package main
 
 import (
     "log"
     "time"
     "github.com/kataras/iris"
-
-    "../mfconns"
 )
 
 type DeviceAPI struct {
@@ -13,10 +19,10 @@ type DeviceAPI struct {
 }
 
 func reqCore(s string) string {
-    msg, err := mfconns.Nc.Request("core_in", []byte(s), 1000*time.Millisecond)
+    msg, err := Nc.Request("core_in", []byte(s), 1000*time.Millisecond)
     if err != nil {
-		    if mfconns.Nc.LastError() != nil {
-			      log.Fatalf("Error in Request: %v\n", mfconns.Nc.LastError())
+		    if Nc.LastError() != nil {
+			      log.Fatalf("Error in Request: %v\n", Nc.LastError())
 		    }
 		    log.Fatalf("Error in Request: %v\n", err)
 	  }

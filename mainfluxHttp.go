@@ -9,9 +9,6 @@
 package main
 
 import (
-    "./api"
-    "./mfconns"
-
     "log"
     "fmt"
     "strconv"
@@ -24,7 +21,7 @@ import (
     "github.com/spf13/viper"
 )
 
-var nc nats.Conn
+var Nc *nats.Conn
 
 func main() {
 
@@ -62,11 +59,11 @@ func main() {
     registerAPI()
 
     /** Connect to NATS broker */
-    var nerr error
-    mfconns.Nc, nerr = nats.Connect("nats://" + ntshost + ":" + strconv.Itoa(ntsport))
-    if nerr != nil {
-       log.Fatalf("Can't connect: %v\n", nerr)
+    ncp, err := nats.Connect("nats://" + ntshost + ":" + strconv.Itoa(ntsport))
+    if err != nil {
+       log.Fatalf("Can't connect: %v\n", err)
     }
+    Nc = ncp
 
     color.Cyan(banner)
     color.Cyan("Magic happens on port " + strconv.Itoa(port))
@@ -76,9 +73,9 @@ func main() {
 }
 
 func registerAPI() {
-    iris.API("/status", api.StatusAPI{})
-    iris.API("/devices", api.DeviceAPI{})
-    iris.API("/channels", api.ChannelAPI{})
+    iris.API("/status", StatusAPI{})
+    iris.API("/devices", DeviceAPI{})
+    iris.API("/channels", ChannelAPI{})
 }
 
 var banner = `
