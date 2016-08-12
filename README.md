@@ -30,16 +30,16 @@ Now you can run the server:
 $GOBIN/mainflux-http-server
 ```
 
-Note that the binary `mainflux-http-server` expects to find configuration file `config.yml` in
+Please note that the binary `mainflux-http-server` expects to find configuration file `config.yml` in
 direcotry provided by `MAINFLUX_HTTP_SERVER_CONFIG_DIR` if this variable is set. Otherwise it looks for `config.yml`
-in $GOPATH/src/github.com/mainflux/mainflux-http-server`.
+in `$GOPATH/src/github.com/mainflux/mainflux-http-server`.
 
-Please note that this method is prefered that out-of-gopath code fetch by cloning the git repo like this:
+Note also that using `go get` is prefered than out-of-gopath code fetch by cloning the git repo like this:
 ```
 git clone https://github.com/Mainflux/mainflux-http-server && cd mainflux-http-server
 go get
 go build
-./mainflux-http-server MAINFLUX_HTTP_SERVER_CONFIG_DIR=.
+MAINFLUX_HTTP_SERVER_CONFIG_DIR=. ./mainflux-http-server
 ```
 
 ### Dependencies
