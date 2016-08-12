@@ -1,7 +1,6 @@
 ###
 # Mainflux Dockerfile
 ###
-# Set the base image to Node, onbuild variant: https://registry.hub.docker.com/_/node/
 
 FROM golang:alpine
 MAINTAINER Mainflux
