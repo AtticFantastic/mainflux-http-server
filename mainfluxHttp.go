@@ -12,6 +12,7 @@ import (
     "log"
     "fmt"
     "strconv"
+    "os"
 
     "github.com/iris-contrib/middleware/logger"
     "github.com/kataras/iris"
@@ -25,10 +26,19 @@ var Nc *nats.Conn
 
 func main() {
 
-    // Viper setup
+    /** Viper setup **/
+    // We can use config.yml from different locations,
+    // depending if we run from
+    cfgDir := os.Getenv("MAINFLUX_HTTP_SERVER_CONFIG_DIR")
+    if cfgDir == "" {
+        // default cfg path to source dir, as we keep cfg.yml there
+        cfgDir = os.Getenv("GOPATH") + "/src/github.com/mainflux/mainflux-http-server"
+    }
+
+
     viper.SetConfigType("yaml") // or viper.SetConfigType("YAML")
     viper.SetConfigName("config") // name of config file (without extension)
-    viper.AddConfigPath(".")   // path to look for the config file in
+    viper.AddConfigPath(cfgDir)   // path to look for the config file in
     err := viper.ReadInConfig() // Find and read the config file
     if err != nil { // Handle errors reading the config file
         panic(fmt.Errorf("Fatal error config file: %s \n", err))

@@ -7,13 +7,41 @@
 
 HTTP API Microservice for Mainflux IoT Platform.
 
-### Usage
+### Installation
+#### Prerequisite
+If not set already, please set your `GOPATH` and `GOBIN` environment variables. For example:
+```bash
+mkdir -p ~/go
+export GOPATH=~/go
+export GOBIN=$GOPATH/bin
+```
+
+#### Get the code
+Use [`go`](https://golang.org/cmd/go/) tool to "get" (i.e. fetch and build) `mainflux-http-server` package:
+```bash
+go get github.com/mainflux/mainflux-http-server
+```
+
+This will download the code to `$GOPATH/src/github.com/mainflux/mainflux-http-server` directory,
+and then compile it and install the binary in `$GOBIN` directory.
+
+Now you can run the server:
+```bash
+$GOBIN/mainflux-http-server
+```
+
+Note that the binary `mainflux-http-server` expects to find configuration file `config.yml` in
+direcotry provided by `MAINFLUX_HTTP_SERVER_CONFIG_DIR` if this variable is set. Otherwise it looks for `config.yml`
+in $GOPATH/src/github.com/mainflux/mainflux-http-server`.
+
+Please note that this method is prefered that out-of-gopath code fetch by cloning the git repo like this:
 ```
 git clone https://github.com/Mainflux/mainflux-http-server && cd mainflux-http-server
 go get
 go build
-./mainflux-http-server
+./mainflux-http-server MAINFLUX_HTTP_SERVER_CONFIG_DIR=.
 ```
+
 ### Dependencies
 Mainflux HTTP Server is connected to `NATS` on southbound interface.
 
