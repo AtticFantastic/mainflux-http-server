@@ -78,7 +78,7 @@ docker run -p 4222:4222 -it apcera/gnatsd
 `NATS` config can be customized in [config.yml](config.yml).
 
 > N.B. `NATS` host name in the `config.yml` is defined as `nats`,
-> which corresponds to the nme of the service in [`docker-compose.yml`](https://github.com/Mainflux/mainflux/blob/master/docker-compose.yml).
+> which corresponds to the name of the service in [`docker-compose.yml`](https://github.com/Mainflux/mainflux/blob/master/docker-compose.yml).
 > If you are running `mainflux-http-server` locally (and not via `docker-compose`), then you must change
 > NATS hostname to `localhost` - this will work weather you are running `NATS` as a `gnatsd` compiled from source
 > or as a `docker run mainflux-nats`
