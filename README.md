@@ -62,7 +62,7 @@ Following diagram illustrates the architecture:
 
 Upon booting it will expect that [NATS](https://github.com/nats-io/gnatsd) is up and running. This can be obtained either by fetching and compiling `NATS` source:
 ```bash
-go get go get github.com/nats-io/gnatsd
+go get github.com/nats-io/gnatsd
 $GOBIN/gnatsd
 ```
 or pulling the [official `NATS` Docker container](https://hub.docker.com/r/apcera/gnatsd/)
