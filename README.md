@@ -48,7 +48,24 @@ Mainflux HTTP Server is connected to `NATS` on southbound interface.
 Following diagram illustrates the architecture:
 ![Mainflux Arch](https://github.com/Mainflux/mainflux-doc/blob/master/mermaid/arch.png)
 
-Upon booting it will expect that [NATS](https://github.com/nats-io/gnatsd) is up and running. `NATS` config can be customized in [config.yml](config.yml).
+Upon booting it will expect that [NATS](https://github.com/nats-io/gnatsd) is up and running. This can be obtained either by fetching and compiling `NATS` source:
+```bash
+go get go get github.com/nats-io/gnatsd
+$GOBIN/gnatsd
+```
+or pulling the [official `NATS` Docker container](https://hub.docker.com/r/apcera/gnatsd/)
+```
+docker pull apcera/gnatsd
+docker run -h mainflux-nats -it apcera/gnatsd
+```
+
+`NATS` config can be customized in [config.yml](config.yml).
+
+> N.B. `NATS` host name in the `config.yml` is defined as `nats`,
+> which corresponds to the nme of the service in [docker-compose.yml](https://github.com/Mainflux/mainflux/blob/master/docker-compose.yml).
+> If you are running `mainflux-http-server` locally (and not via `docker-compose`), then you must change
+> NATS hostname to `localhost` - this will work weather you are running `NATS` as a `gnatsd` compiled from source
+> or as a `docker run mainflux-nats`
 
 ### Documentation
 Development documentation can be found on our [Mainflux GitHub Wiki](https://github.com/Mainflux/mainflux/wiki).
