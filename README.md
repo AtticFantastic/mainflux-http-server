@@ -79,7 +79,7 @@ After starting `NATS` (from the binary or from the continer), we can now start `
 ```
 MAINFLUX_HTTP_SERVER_CONFIG_DIR=. ./mainflux-http-server
 ```
-Note that since we are starting `NATS` now with ports mapped to `localhost` we must customize [config.yml](config.yml) and change `NATS` hostname to `localhost` as this is where `mainflux-http-server` will expect the `NATS` service to be available.
+Note that since we are starting `NATS` now with ports mapped to `localhost` we must customize [`config.yml`](config.yml) and change `NATS` hostname to `localhost`, as this is where `mainflux-http-server` will expect the `NATS` service to be available.
 
 > N.B. `NATS` host name in the `config.yml` is defined as `nats`,
 > which corresponds to the name of the service in [`docker-compose.yml`](https://github.com/Mainflux/mainflux/blob/master/docker-compose.yml).
