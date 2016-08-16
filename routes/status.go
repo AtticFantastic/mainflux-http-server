@@ -6,19 +6,15 @@
  * See the included LICENSE file for more details.
  */
 
-package main
+package routes
 
 import (
     "github.com/kataras/iris"
 )
 
-type StatusAPI struct {
-	  *iris.Context
-}
-
 // GET /status
-func (s StatusAPI) Get() {
-    m := formJson("getStatus", "", s.RequestCtx.Request.Body())
-    s.Write(reqCore(m))
+func GetStatus(ctx *iris.Context) {
+    m := formJson("getStatus", "", ctx.Request.Body())
+    ctx.Write(reqCore(m))
 }
 

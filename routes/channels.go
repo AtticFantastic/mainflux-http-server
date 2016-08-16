@@ -6,17 +6,13 @@
  * See the included LICENSE file for more details.
  */
 
-package main
+package routes
 
 import (
     //"log"
     //"time"
     "github.com/kataras/iris"
 )
-
-type ChannelAPI struct {
-	  *iris.Context
-}
 
 /**
  * InfluxDB
@@ -47,35 +43,36 @@ func (c ChannelAPI) Get() {
 }
 */
 
-/**
- * MongoDB
- */
+
 // GET /channels
-func (c ChannelAPI) Get() {
-    s := formJson("getChannels", "", c.RequestCtx.Request.Body())
-    c.Write(reqCore(s))
+func GetChannels(ctx *iris.Context) {
+    s := formJson("getChannels", "", ctx.Request.Body())
+    ctx.Write(reqCore(s))
 }
 
 // POST /channels
-func (c ChannelAPI) Post() {
-    s := formJson("createChannel", "", c.RequestCtx.Request.Body())
-    c.Write(reqCore(s))
+func CreateChannel(ctx *iris.Context) {
+    s := formJson("createChannel", "", ctx.Request.Body())
+    ctx.Write(reqCore(s))
 }
 
 // GET /channels/:id
-func (c ChannelAPI) GetBy(id string) {
-    s := formJson("getChannel", id, c.RequestCtx.Request.Body())
-    c.Write(reqCore(s))
+func GetChannel(ctx *iris.Context) {
+    id := ctx.Param("id")
+    s := formJson("getChannel", id, ctx.Request.Body())
+    ctx.Write(reqCore(s))
 }
 
-// PUT /devices/:id
-func (c ChannelAPI) PutBy(id string) {
-    s := formJson("updateChannel", id, c.RequestCtx.Request.Body())
-    c.Write(reqCore(s))
+// PUT /channels/:id
+func UpdateChannel(ctx *iris.Context) {
+    id := ctx.Param("id")
+    s := formJson("updateChannel", id, ctx.Request.Body())
+    ctx.Write(reqCore(s))
 }
 
-// DELETE /devices/:id
-func (c ChannelAPI) DeleteBy(id string) {
-    s := formJson("deleteChannel", id, c.RequestCtx.Request.Body())
-    c.Write(reqCore(s))
+// DELETE /channels/:id
+func DeleteChannel(ctx *iris.Context) {
+    id := ctx.Param("id")
+    s := formJson("deleteChannel", id, ctx.Request.Body())
+    ctx.Write(reqCore(s))
 }

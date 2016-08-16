@@ -9,46 +9,20 @@
 package main
 
 import (
-    "log"
-    "fmt"
     "strconv"
-    "os"
+
+    "github.com/mainflux/mainflux-http-server/routes"
+    "github.com/mainflux/mainflux-http-server/broker"
+    "github.com/mainflux/mainflux-http-server/config"
 
     "github.com/iris-contrib/middleware/logger"
     "github.com/kataras/iris"
-    "github.com/nats-io/nats"
 
     "github.com/fatih/color"
-    "github.com/spf13/viper"
+
 )
 
-var Nc *nats.Conn
-
 func main() {
-
-    /** Viper setup **/
-    // We can use config.yml from different locations,
-    // depending if we run from
-    cfgDir := os.Getenv("MAINFLUX_HTTP_SERVER_CONFIG_DIR")
-    if cfgDir == "" {
-        // default cfg path to source dir, as we keep cfg.yml there
-        cfgDir = os.Getenv("GOPATH") + "/src/github.com/mainflux/mainflux-http-server"
-    }
-
-
-    viper.SetConfigType("yaml") // or viper.SetConfigType("YAML")
-    viper.SetConfigName("config") // name of config file (without extension)
-    viper.AddConfigPath(cfgDir)   // path to look for the config file in
-    err := viper.ReadInConfig() // Find and read the config file
-    if err != nil { // Handle errors reading the config file
-        panic(fmt.Errorf("Fatal error config file: %s \n", err))
-    }
-
-    host := viper.GetString("server.host")
-    port := viper.GetInt("server.port")
-
-    ntshost := viper.GetString("nats.host")
-    ntsport := viper.GetInt("nats.port")
 
     // Iris config
     iris.Config.DisableBanner = true
@@ -65,27 +39,44 @@ func main() {
         ctx.Render("errors/500.html", nil, iris.RenderOptions{"layout": iris.NoLayout})
     })
 
-    // register the public API
-    registerAPI()
+    // register public API
+    registerRoutes()
 
-    /** Connect to NATS broker */
-    ncp, err := nats.Connect("nats://" + ntshost + ":" + strconv.Itoa(ntsport))
-    if err != nil {
-       log.Fatalf("Can't connect: %v\n", err)
-    }
-    Nc = ncp
+    // Parse config
+    var cfg config.Config
+    cfg.Parse()
+
+    // Initialize NATS connection
+    broker.Connect(cfg.NatsHost, cfg.NatsPort)
 
     color.Cyan(banner)
-    color.Cyan("Magic happens on port " + strconv.Itoa(port))
+    color.Cyan("Magic happens on port " + strconv.Itoa(cfg.HttpPort))
 
     // start the server
-    iris.Listen(host + ":" + strconv.Itoa(port))
+    iris.Listen(cfg.HttpHost + ":" + strconv.Itoa(cfg.HttpPort))
 }
 
-func registerAPI() {
-    iris.API("/status", StatusAPI{})
-    iris.API("/devices", DeviceAPI{})
-    iris.API("/channels", ChannelAPI{})
+func registerRoutes() {
+    // STATUS
+	  iris.Get("/status", routes.GetStatus)
+
+    // DEVICES
+	  iris.Post("/devices", routes.CreateDevice)
+	  iris.Get("/devices", routes.GetDevices)
+
+    iris.Get("/devices/:id", routes.GetDevice)
+    iris.Put("/devices/:id", routes.UpdateDevice)
+
+    iris.Delete("/devices/:id", routes.DeleteDevice)
+
+    // CHANNELS
+	  iris.Post("/channels", routes.CreateChannel)
+	  iris.Get("/channels", routes.GetChannels)
+
+    iris.Get("/channels/:id", routes.GetChannel)
+    iris.Put("/channels/:id", routes.UpdateChannel)
+
+    iris.Delete("/channels/:id", routes.DeleteChannel)
 }
 
 var banner = `
