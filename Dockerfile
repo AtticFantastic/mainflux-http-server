@@ -28,6 +28,6 @@ RUN go get github.com/mainflux/mainflux-http-server
 CMD ["/config/http/config.yml"]
 
 # Run mainflux command by default when the container starts.
-ENTRYPOINT /go/bin/mainflux-http-server
+ENTRYPOINT ["/go/bin/mainflux-http-server"]
 
 EXPOSE $MAINFLUX_NATS_PORT
