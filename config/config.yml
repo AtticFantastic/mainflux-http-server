@@ -17,5 +17,5 @@ server:
 # NATS
 ###
 nats:
-  host: "nats"
+  host: "localhost"
   port: 4222

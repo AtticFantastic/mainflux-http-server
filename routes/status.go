@@ -9,12 +9,11 @@
 package routes
 
 import (
-    "github.com/kataras/iris"
+	"github.com/kataras/iris"
 )
 
 // GET /status
 func GetStatus(ctx *iris.Context) {
-    m := formJson("getStatus", "", ctx.Request.Body())
-    ctx.Write(reqCore(m))
+	m := formJson("getStatus", "", ctx.Request.Body())
+	ctx.Write(reqCore(m))
 }
-

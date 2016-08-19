@@ -9,15 +9,15 @@
 package routes
 
 import (
-    //"log"
-    //"time"
-    "github.com/kataras/iris"
+	//"log"
+	//"time"
+	"github.com/kataras/iris"
 )
 
 /**
  * InfluxDB
  */
- /*
+/*
 // GET /channels/:id/ts
 func (c ChannelAPI) GetBy() {
     s := formJson("queryTs", "", c.RequestCtx.Request.Body())
@@ -43,36 +43,35 @@ func (c ChannelAPI) Get() {
 }
 */
 
-
 // GET /channels
 func GetChannels(ctx *iris.Context) {
-    s := formJson("getChannels", "", ctx.Request.Body())
-    ctx.Write(reqCore(s))
+	s := formJson("getChannels", "", ctx.Request.Body())
+	ctx.Write(reqCore(s))
 }
 
 // POST /channels
 func CreateChannel(ctx *iris.Context) {
-    s := formJson("createChannel", "", ctx.Request.Body())
-    ctx.Write(reqCore(s))
+	s := formJson("createChannel", "", ctx.Request.Body())
+	ctx.Write(reqCore(s))
 }
 
 // GET /channels/:id
 func GetChannel(ctx *iris.Context) {
-    id := ctx.Param("id")
-    s := formJson("getChannel", id, ctx.Request.Body())
-    ctx.Write(reqCore(s))
+	id := ctx.Param("id")
+	s := formJson("getChannel", id, ctx.Request.Body())
+	ctx.Write(reqCore(s))
 }
 
 // PUT /channels/:id
 func UpdateChannel(ctx *iris.Context) {
-    id := ctx.Param("id")
-    s := formJson("updateChannel", id, ctx.Request.Body())
-    ctx.Write(reqCore(s))
+	id := ctx.Param("id")
+	s := formJson("updateChannel", id, ctx.Request.Body())
+	ctx.Write(reqCore(s))
 }
 
 // DELETE /channels/:id
 func DeleteChannel(ctx *iris.Context) {
-    id := ctx.Param("id")
-    s := formJson("deleteChannel", id, ctx.Request.Body())
-    ctx.Write(reqCore(s))
+	id := ctx.Param("id")
+	s := formJson("deleteChannel", id, ctx.Request.Body())
+	ctx.Write(reqCore(s))
 }
