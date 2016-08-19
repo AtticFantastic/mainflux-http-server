@@ -18,17 +18,15 @@ type Config struct {
 
 func (this *Config) Parse() {
 	/** Viper setup **/
-	// We can use config.yml from different locations,
-	// depending if we run from
-	cfgDir := os.Getenv("MAINFLUX_HTTP_SERVER_CONFIG_DIR")
-	if cfgDir == "" {
-		// default cfg path to source dir, as we keep cfg.yml there
-		cfgDir = os.Getenv("GOPATH") + "/src/github.com/mainflux/mainflux-http-server/config"
+	if len(os.Args) > 1 {
+		// We provided config file as an argument
+		viper.SetConfigFile(os.Args[1])
+	} else {
+		cfgDir := os.Getenv("GOPATH") + "/src/github.com/mainflux/mainflux-http-server/config"
+		viper.SetConfigType("yaml")   // or viper.SetConfigType("YAML")
+		viper.SetConfigName("config") // name of config file (without extension)
+		viper.AddConfigPath(cfgDir)   // path to look for the config file in
 	}
-
-	viper.SetConfigType("yaml")   // or viper.SetConfigType("YAML")
-	viper.SetConfigName("config") // name of config file (without extension)
-	viper.AddConfigPath(cfgDir)   // path to look for the config file in
 	err := viper.ReadInConfig()   // Find and read the config file
 	if err != nil {               // Handle errors reading the config file
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
